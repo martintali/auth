@@ -22,7 +22,7 @@ exports.signup = function (req, res, next) {
       .send({ error: 'You must provide email and password' });
 
   User.findOne({ email }, (err, user) => {
-    if (err) next(err);
+    if (err) return next(err);
 
     if (user) return res.status(422).send({ error: 'Email taken' });
 
@@ -33,4 +33,8 @@ exports.signup = function (req, res, next) {
       res.json({ token: tokenForUser(newUser) });
     });
   });
+};
+
+exports.signin = function (req, res, next) {
+  res.json({ token: tokenForUser(req.user) });
 };
